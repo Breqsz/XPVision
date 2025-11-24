@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "665761168616",
+    "firebase_url": "https://xpvision-b28c3-default-rtdb.firebaseio.com",
+    "project_id": "xpvision-b28c3",
+    "storage_bucket": "xpvision-b28c3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665761168616:android:6342bc28a6aba1871c1d5d",
+        "android_client_info": {
+          "package_name": "com.breq.xpvision"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6MCfsThDxViT6Tnw1TEKD-caxKwsF1Lg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
