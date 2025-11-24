@@ -414,24 +414,14 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ---
 
-## 👥 Equipe
+## 👥 Equipe NGR
 
-Desenvolvido com ❤️ para ajudar jovens a alcançarem suas metas financeiras.
-
----
-
-## 📞 Contato
-
-Para dúvidas, sugestões ou problemas:
-- Abra uma [Issue](https://github.com/seu-usuario/xp-vision-app/issues)
-- Entre em contato através do email: [seu-email@exemplo.com]
+Nikolas Moura Rodrigues Dos Santos
+Guilherme Rocha Bianchini
+Rodrigo Brasileiro 
 
 ---
 
 <div align="center">
-
-**Feito com ❤️ usando React Native e Expo**
-
-⭐ Se este projeto te ajudou, considere dar uma estrela!
 
 </div>
