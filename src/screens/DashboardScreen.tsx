@@ -80,9 +80,9 @@ const DashboardScreen: React.FC = () => {
       <View style={styles.container}>
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>🎯</Text>
-          <Text style={styles.emptyTitle}>Nenhum sonho cadastrado</Text>
+          <Text style={styles.emptyTitle}>Nenhuma meta cadastrada</Text>
           <Text style={styles.emptySubtitle}>
-            Adicione seu primeiro sonho na aba "Dreams"
+            Adicione sua primeira meta na aba "Metas"
           </Text>
         </View>
       </View>

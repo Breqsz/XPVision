@@ -37,7 +37,7 @@ const EDUCATIONAL_CONTENT: Content[] = [
       'Espere 24 horas antes de compras acima de R$ 50',
       'Use a regra dos 10 segundos: respire antes de comprar',
       'Crie uma lista de desejos e revise semanalmente',
-      'Pergunte-se: "Isso me aproxima do meu sonho?"',
+      'Pergunte-se: "Isso me aproxima da minha meta?"',
     ],
   },
   {

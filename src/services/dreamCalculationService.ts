@@ -1,4 +1,4 @@
-// Serviço para cálculos relacionados ao sonho
+// Serviço para cálculos relacionados às metas
 
 export interface DreamProgress {
   percentage: number;
@@ -8,7 +8,7 @@ export interface DreamProgress {
 
 export const dreamCalculationService = {
   /**
-   * Calcula progresso do sonho
+   * Calcula progresso da meta
    */
   calculateProgress(
     currentSaved: number,
@@ -32,7 +32,7 @@ export const dreamCalculationService = {
   },
 
   /**
-   * Calcula quantos dias um boost adianta o sonho
+   * Calcula quantos dias um boost adianta a meta
    */
   calculateBoostDays(
     boostAmount: number,

@@ -1,87 +1,105 @@
-// Service to call Google's Gemini API
-// Replace YOUR_API_KEY with your actual Google Gemini API key
+// src/services/geminiService.ts
 
-interface GeminiContext {
+export interface GeminiContext {
   dreamTitle?: string;
   dreamProgress?: number;
   recentBets?: number;
   challenges?: string[];
 }
 
+/**
+ * Serviço principal para enviar mensagens ao Gemini
+ */
 export async function sendMessageToGemini(
   prompt: string,
   context?: GeminiContext
 ): Promise<string> {
-  const apiKey = 'AIzaSyBdSpAvqHuE9f6rdldibUg5fT8s204Xd4U';
-  
-  // Construir contexto do sistema
-  let systemContext = 'Você é o FinXP, um coach financeiro jovem e motivador. ';
-  systemContext += 'Seu objetivo é ajudar jovens a alcançar seus sonhos financeiros. ';
-  systemContext += 'Seja empático, use emojis ocasionalmente e dê conselhos práticos.\n\n';
-  
+
+
+  const apiKey = "AIzaSyBdSpAvqHuE9f6rdldibUg5fT8s204Xd4U"; 
+
+  let systemContext = `
+Você é o FinXP, um coach financeiro jovem e motivador.
+Ajude o usuário com educação financeira, metas e controle emocional.
+Use emojis com moderação e dê conselhos práticos e imediatos.
+`;
+
   if (context) {
-    if (context.dreamTitle) {
-      systemContext += `O usuário tem um sonho: ${context.dreamTitle}. `;
-    }
-    if (context.dreamProgress !== undefined) {
-      systemContext += `Progresso atual: ${(context.dreamProgress * 100).toFixed(0)}%. `;
-    }
-    if (context.recentBets && context.recentBets > 0) {
-      systemContext += `⚠️ ATENÇÃO: O usuário fez ${context.recentBets} aposta(s) recentemente. `;
-      systemContext += 'Seja empático mas firme sobre o impacto das apostas no sonho. ';
-      systemContext += 'Sugira desafios anti-apostas e alternativas.\n\n';
-    }
-    if (context.challenges && context.challenges.length > 0) {
-      systemContext += `Desafios ativos: ${context.challenges.join(', ')}.\n\n`;
-    }
+    if (context.dreamTitle)
+      systemContext += `Meta do usuário: ${context.dreamTitle}. `;
+    if (context.dreamProgress !== undefined)
+      systemContext += `Progresso da meta: ${(context.dreamProgress * 100).toFixed(0)}%. `;
+    if (context.recentBets && context.recentBets > 0)
+      systemContext += `Atenção: o usuário fez ${context.recentBets} aposta(s) recentemente. Seja firme e empático.\n`;
+    if (context.challenges && context.challenges.length > 0)
+      systemContext += `Desafios ativos: ${context.challenges.join(", ")}.\n`;
   }
-  
-  const fullPrompt = systemContext + 'Usuário: ' + prompt;
-  
-  // Usar Gemini 1.5 Flash (modelo estável e confiável)
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  const finalPrompt = systemContext + "\nUsuário: " + prompt;
+
+  // Modelo estável disponível no seu projeto
+  const model = "models/gemini-2.5-flash";
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/${model}:generateContent?key=${apiKey}`;
+
   const body = {
     contents: [
       {
-        parts: [
-          {
-            text: fullPrompt,
-          },
-        ],
-      },
-    ],
+        role: "user",
+        parts: [{ text: finalPrompt }]
+      }
+    ]
   };
+
   try {
     const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
     });
+
+    // ⚠️ Primeiro pegamos como texto para evitar JSON parse error
+    const raw = await res.text();
+
     if (!res.ok) {
-      throw new Error('API request failed');
+      console.error("Gemini error response:", raw);
+      return "Erro ao processar sua mensagem. Tente novamente em instantes.";
     }
-    const data = await res.json();
-    const candidates = data.candidates;
-    if (candidates && candidates.length > 0) {
-      return candidates[0].content.parts[0].text || '';
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (jsonError) {
+      console.error("Erro ao converter JSON:", jsonError, raw);
+      return "A IA respondeu de forma inesperada. Tente novamente.";
     }
-    return '...';
-  } catch (e) {
-    console.error('Gemini API error', e);
-    return 'Erro ao chamar serviço de IA. Verifique sua chave da API do Gemini.';
+
+    const text =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text || text.trim() === "") {
+      return "Não consegui gerar uma resposta agora. Pode reformular a pergunta?";
+    }
+
+    return text;
+
+  } catch (err) {
+    console.error("Gemini API fatal error:", err);
+    return "Erro ao comunicar com a IA. Verifique sua conexão e tente novamente.";
   }
 }
 
 /**
- * Envia mensagem automática quando uma aposta é detectada
+ * Mensagem automática quando uma aposta é detectada
  */
 export async function sendBetDetectedMessage(
   betAmount: number,
   daysLost: number,
   context?: GeminiContext
 ): Promise<string> {
-  const prompt = `Identifiquei uma aposta de R$ ${betAmount.toFixed(2)}. Ela atrasou seu sonho em ${daysLost} dias. Quer recuperar isso com um desafio simples?`;
+  const prompt = `Detectei uma aposta de R$ ${betAmount.toFixed(
+    2
+  )}. Isso atrasou sua meta em ${daysLost} dias. Você quer recuperar esse tempo com um desafio rápido?`;
+  
   return sendMessageToGemini(prompt, context);
 }

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MoreMenu from '../components/MoreMenu';
 import { XPColors } from '../theme/colors';
 
 const MoreScreen: React.FC = () => {
+  const navigation = useNavigation();
   const [menuVisible, setMenuVisible] = useState(false);
 
   // Sempre mostrar o menu quando a tela estiver em foco
@@ -23,7 +24,9 @@ const MoreScreen: React.FC = () => {
       <MoreMenu 
         visible={menuVisible} 
         onClose={() => {
-          // Não fazer nada ao fechar - o menu deve permanecer visível
+          // Voltar para a tela anterior
+          // @ts-ignore
+          navigation.goBack();
         }} 
       />
     </SafeAreaView>

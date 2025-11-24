@@ -34,14 +34,14 @@ const DreamFormScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>🎯 Adicionar Sonho</Text>
+          <Text style={styles.headerTitle}>🎯 Adicionar Meta</Text>
           <Text style={styles.headerSubtitle}>
             Defina sua meta e comece a economizar
           </Text>
         </View>
 
         <XPCard style={styles.card}>
-          <Text style={styles.label}>Título do sonho</Text>
+          <Text style={styles.label}>Título da meta</Text>
           <TextInput
             placeholder="Ex: Viagem para Europa"
             placeholderTextColor={XPColors.textMuted}
@@ -74,7 +74,7 @@ const DreamFormScreen: React.FC = () => {
             onPress={handleSubmit}
             disabled={!title || !targetValue}
           >
-            <Text style={styles.submitButtonText}>Salvar Sonho</Text>
+            <Text style={styles.submitButtonText}>Salvar Meta</Text>
           </TouchableOpacity>
         </XPCard>
       </ScrollView>

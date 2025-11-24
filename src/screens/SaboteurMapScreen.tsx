@@ -110,7 +110,7 @@ const SaboteurMapScreen: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>🗺️ Mapa de Sabotadores</Text>
         <Text style={styles.headerSubtitle}>
-          Identifique o que mais atrasa seu sonho
+          Identifique o que mais atrasa sua meta
         </Text>
       </View>
 
@@ -143,7 +143,7 @@ const SaboteurMapScreen: React.FC = () => {
                 R$ {mostCritical.total.toFixed(2)} este mês
               </Text>
               <Text style={styles.criticalDays}>
-                {mostCritical.daysLost} dias perdidos no sonho
+                {mostCritical.daysLost} dias perdidos na meta
               </Text>
             </View>
           </View>

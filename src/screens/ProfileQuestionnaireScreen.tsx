@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { ref, set } from 'firebase/database';
 import { database } from '../config/firebase';
 import { AuthContext } from '../contexts/AuthContext';
@@ -8,6 +10,7 @@ import { XPColors, XPTypography, XPSpacing, XPBorderRadius } from '../theme/colo
 
 const ProfileQuestionnaireScreen: React.FC = () => {
   const { user } = useContext(AuthContext);
+  const navigation = useNavigation();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     monthlyIncome: '',
@@ -48,7 +51,15 @@ const ProfileQuestionnaireScreen: React.FC = () => {
       };
 
       await set(ref(database, `users/${user.uid}/profile`), profileData);
-      Alert.alert('Sucesso', 'Perfil atualizado com sucesso!');
+      Alert.alert('Sucesso', 'Perfil atualizado com sucesso!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // @ts-ignore
+            navigation.goBack();
+          },
+        },
+      ]);
     } catch (error: any) {
       Alert.alert('Erro', error.message || 'Erro ao salvar perfil');
     }
@@ -156,10 +167,10 @@ const ProfileQuestionnaireScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView 
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-    >
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <ScrollView 
+        contentContainerStyle={styles.contentContainer}
+      >
       <View style={styles.header}>
         <Text style={styles.headerTitle}>📝 Perfil Financeiro</Text>
         <Text style={styles.headerSubtitle}>
@@ -192,7 +203,8 @@ const ProfileQuestionnaireScreen: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -31,7 +31,7 @@ const mockTransactions: Transaction[] = [
     realityTrigger: {
       mealsEquivalent: 7,
       dreamDaysLost: 5,
-      message: 'Com esse valor você compraria 7 refeições ou adiantaria 5 dias no seu sonho.',
+      message: 'Com esse valor você poderia adiantar 5 dias na sua meta.',
     },
     createdAt: new Date(),
   },

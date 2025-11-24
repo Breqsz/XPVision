@@ -133,7 +133,7 @@ const BetProtectionScreen: React.FC = () => {
         <Text style={styles.cardTitle}>💡 Dicas</Text>
         <View style={styles.tipsList}>
           <Text style={styles.tipItem}>• Bloqueie sites de apostas no navegador</Text>
-          <Text style={styles.tipItem}>• Use o Simulador YOLO antes de apostar</Text>
+          <Text style={styles.tipItem}>• Use a Análise de Impacto antes de apostar</Text>
           <Text style={styles.tipItem}>• Converse com o FinXP sobre seus impulsos</Text>
           <Text style={styles.tipItem}>• Participe dos desafios semanais</Text>
         </View>

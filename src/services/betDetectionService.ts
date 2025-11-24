@@ -36,12 +36,12 @@ export const betDetectionService = {
     
     const mealsEquivalent = Math.round(Math.abs(amount) / MEAL_COST);
     
-    // Calcula quantos dias atrasa o sonho
+    // Calcula quantos dias atrasa a meta
     // Assumindo que o usuário economiza uma quantia média por dia
     const dailySavings = dreamTargetValue / 365; // Meta anual dividida por dias
     const dreamDaysLost = Math.round(Math.abs(amount) / dailySavings);
     
-    const message = `Com esse valor você compraria ${mealsEquivalent} refeições ou adiantaria ${dreamDaysLost} dias no seu sonho.`;
+    const message = `Com esse valor você poderia adiantar ${dreamDaysLost} dias na sua meta.`;
     
     return {
       mealsEquivalent,
@@ -51,7 +51,7 @@ export const betDetectionService = {
   },
 
   /**
-   * Calcula impacto em dias de uma transação no sonho
+   * Calcula impacto em dias de uma transação na meta
    */
   calculateImpactDays(
     amount: number,

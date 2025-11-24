@@ -31,6 +31,8 @@ const getTabIconEmoji = (routeName: string): string => {
       return '📋';
     case 'Chat':
       return '💬';
+    case 'EducationalContent':
+      return '📚';
     case 'More':
       return '☰';
     default:
@@ -52,6 +54,7 @@ export type RootStackParamList = {
   Community: undefined;
   EducationalContent: undefined;
   Chat: { initialMessage?: string } | undefined;
+  More: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -85,6 +88,11 @@ function HomeTabs() {
         name="Chat" 
         component={ChatScreen}
         options={{ tabBarLabel: 'FinXP' }}
+      />
+      <Tab.Screen 
+        name="EducationalContent" 
+        component={EducationalContentScreen}
+        options={{ tabBarLabel: 'Aprender' }}
       />
       <Tab.Screen 
         name="More" 

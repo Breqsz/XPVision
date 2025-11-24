@@ -79,10 +79,15 @@ const SplashScreen: React.FC = () => {
         ]}
       >
         <View style={styles.logoCircle}>
-          <Text style={styles.logoEmoji}>🎯</Text>
+          <View style={styles.logoInner}>
+            <Text style={styles.logoEmoji}>🎯</Text>
+          </View>
         </View>
-        <Text style={styles.logoText}>XP Vision</Text>
-        <Text style={styles.tagline}>Transforme sonhos em realidade</Text>
+        <View style={styles.logoTextContainer}>
+          <Text style={styles.logoText}>XP</Text>
+          <Text style={styles.logoTextAccent}>Vision</Text>
+        </View>
+        <Text style={styles.tagline}>Transforme metas em realidade</Text>
       </Animated.View>
       
       <Animated.View style={{ opacity: fadeAnim }}>
@@ -104,28 +109,50 @@ const styles = StyleSheet.create({
     marginBottom: XPSpacing.xl,
   },
   logoCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
     backgroundColor: XPColors.yellow,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: XPSpacing.lg,
     shadowColor: XPColors.yellow,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.5,
-    shadowRadius: 16,
-    elevation: 16,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.6,
+    shadowRadius: 24,
+    elevation: 20,
+  },
+  logoInner: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: XPColors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logoEmoji: {
-    fontSize: 64,
+    fontSize: 56,
+  },
+  logoTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginBottom: XPSpacing.xs,
   },
   logoText: {
-    fontSize: 48,
-    fontWeight: '800',
+    fontSize: 52,
+    fontWeight: '900',
     color: XPColors.yellow,
-    marginBottom: XPSpacing.xs,
+    letterSpacing: 3,
+    textShadowColor: 'rgba(255, 212, 0, 0.5)',
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 8,
+  },
+  logoTextAccent: {
+    fontSize: 52,
+    fontWeight: '300',
+    color: XPColors.textPrimary,
     letterSpacing: 2,
+    marginLeft: XPSpacing.xs,
   },
   tagline: {
     fontSize: XPTypography.body,

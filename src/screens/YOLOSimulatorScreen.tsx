@@ -29,7 +29,7 @@ const YOLOSimulatorScreen: React.FC = () => {
     }
 
     if (!activeDream) {
-      Alert.alert('Aviso', 'Você precisa ter um sonho cadastrado');
+      Alert.alert('Aviso', 'Você precisa ter uma meta cadastrada');
       return;
     }
 
@@ -43,7 +43,7 @@ const YOLOSimulatorScreen: React.FC = () => {
     const alternatives = [
       `Investir em um curso online (R$ ${value.toFixed(2)})`,
       `Fazer uma reserva de emergência (R$ ${value.toFixed(2)})`,
-      `Adiantar ${Math.abs(impactDays)} dias no seu sonho`,
+      `Adiantar ${Math.abs(impactDays)} dias na sua meta`,
       `Criar uma reserva para imprevistos`,
     ];
     const alternative = alternatives[Math.floor(Math.random() * alternatives.length)];
@@ -60,7 +60,7 @@ const YOLOSimulatorScreen: React.FC = () => {
 
     // O que poderia ser feito com esse valor
     const whatCouldBeDone = [
-      `Adiantar ${Math.abs(impactDays)} dias no seu sonho`,
+      `Adiantar ${Math.abs(impactDays)} dias na sua meta`,
       `Criar uma reserva de emergência`,
       `Investir em educação ou desenvolvimento pessoal`,
       `Fazer uma doação para uma causa importante`,
@@ -107,7 +107,7 @@ const YOLOSimulatorScreen: React.FC = () => {
       {result && (
         <>
           <XPCard style={styles.card}>
-            <Text style={styles.resultTitle}>📊 Impacto no Seu Sonho</Text>
+            <Text style={styles.resultTitle}>📊 Impacto na Sua Meta</Text>
             
             <View style={styles.resultItem}>
               <Text style={styles.resultEmoji}>⏰</Text>
@@ -147,7 +147,7 @@ const YOLOSimulatorScreen: React.FC = () => {
               onPress={() => {
                 // @ts-ignore
                 navigation.navigate('Chat', { 
-                  initialMessage: `Acabei de analisar uma compra de R$ ${parseFloat(amount).toFixed(2)} que atrasaria meu sonho em ${result.daysDelayed} dias. O que você acha?` 
+                  initialMessage: `Acabei de analisar uma compra de R$ ${parseFloat(amount).toFixed(2)} que atrasaria minha meta em ${result.daysDelayed} dias. O que você acha?` 
                 });
               }}
             >
@@ -160,7 +160,7 @@ const YOLOSimulatorScreen: React.FC = () => {
       {!activeDream && (
         <XPCard style={styles.card}>
           <Text style={styles.warningText}>
-            ⚠️ Você precisa cadastrar um sonho para usar o simulador
+            ⚠️ Você precisa cadastrar uma meta para usar o simulador
           </Text>
         </XPCard>
       )}

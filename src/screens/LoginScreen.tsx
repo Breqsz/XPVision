@@ -142,7 +142,7 @@ const LoginScreen: React.FC = () => {
             </View>
             <Text style={styles.title}>XP Vision</Text>
             <Text style={styles.subtitle}>
-              {isLogin ? 'Entre na sua conta' : 'Crie sua conta e transforme seus sonhos em realidade'}
+              {isLogin ? 'Entre na sua conta' : 'Crie sua conta e transforme suas metas em realidade'}
             </Text>
           </View>
 

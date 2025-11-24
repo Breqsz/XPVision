@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Animated } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
 import { sendMessageToGemini } from '../services/geminiService';
 import { XPColors, XPTypography, XPSpacing, XPBorderRadius } from '../theme/colors';
@@ -32,7 +33,9 @@ const ChatScreen: React.FC = () => {
     },
   ]);
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
   const { dreams } = useContext(DreamContext);
+  const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
     if (initialMessage) {
@@ -61,27 +64,34 @@ const ChatScreen: React.FC = () => {
     };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    setLoading(true);
+    
+    // Scroll para o final
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }, 100);
     
     try {
-      // Contexto do sonho para o Gemini
-      const dreamContext = dreams.length > 0 
-        ? `O usuário tem um sonho: ${dreams[0].title} (R$ ${dreams[0].currentSaved}/${dreams[0].targetValue}). `
-        : '';
-      
       const context = dreams.length > 0 ? {
         dreamTitle: dreams[0].title,
         dreamProgress: dreams[0].currentSaved / dreams[0].targetValue,
       } : undefined;
       
       const aiText = await sendMessageToGemini(messageText, context);
-      const aiMessage: Message = { 
-        id: `${Date.now()}-ai`, 
-        text: aiText, 
-        from: 'ai',
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, aiMessage]);
+      
+      if (aiText && aiText.trim() !== "" && aiText !== "…") {
+        const aiMessage: Message = { 
+          id: `${Date.now()}-ai`, 
+          text: aiText, 
+          from: 'ai',
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+      } else {
+        throw new Error('Resposta vazia');
+      }
     } catch (err) {
+      console.error('Erro no chat:', err);
       const aiMessage: Message = { 
         id: `${Date.now()}-err`, 
         text: 'Desculpe, não consegui responder agora. Tente novamente! 😅', 
@@ -89,6 +99,11 @@ const ChatScreen: React.FC = () => {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiMessage]);
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 100);
     }
   };
 
@@ -133,12 +148,13 @@ const ChatScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
-      <View style={styles.header}>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <KeyboardAvoidingView 
+        style={styles.keyboardView}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      >
+        <View style={styles.header}>
         <View style={styles.headerContent}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>🤖</Text>
@@ -151,13 +167,20 @@ const ChatScreen: React.FC = () => {
       </View>
 
       <FlatList
+        ref={flatListRef}
         data={messages}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.messagesList}
         inverted={false}
         ListFooterComponent={renderQuickReplies}
+        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
       />
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>FinXP está digitando...</Text>
+        </View>
+      )}
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -182,7 +205,8 @@ const ChatScreen: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -190,6 +214,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: XPColors.background,
+  },
+  keyboardView: {
+    flex: 1,
   },
   header: {
     backgroundColor: XPColors.cardBackground,
@@ -314,6 +341,15 @@ const styles = StyleSheet.create({
   sendButtonText: {
     fontSize: 20,
     fontWeight: XPTypography.bold,
+  },
+  loadingContainer: {
+    padding: XPSpacing.sm,
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: XPTypography.caption,
+    color: XPColors.textMuted,
+    fontStyle: 'italic',
   },
 });
 
