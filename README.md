@@ -408,12 +408,6 @@ Contribuições são bem-vindas! Siga estes passos:
 
 ---
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
----
-
 ## 👥 Equipe NGR
 
 Nikolas Moura Rodrigues Dos Santos
